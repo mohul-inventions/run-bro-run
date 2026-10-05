@@ -2,6 +2,8 @@
 
 A funny, fast-paced 2D/pseudo-3D endless runner arcade game built with pure **HTML5 Canvas, CSS, and Vanilla JavaScript**. Zero external frameworks, zero build steps, zero dependencies.
 
+🎮 **[PLAY LIVE ONLINE NOW!](https://mohul-inventions.github.io/run-bro-run/)** 🚀
+
 ---
 
 ## 🎮 Playable Features
