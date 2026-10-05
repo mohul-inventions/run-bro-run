@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>RUN, BRO, RUN! 💀</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="bro.png" type="image/png">
+</head>
+<body>
+  <div id="game-wrapper">
+    <!-- Main Game Canvas Container -->
+    <div id="canvas-container">
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- Floating In-Game Toast / Meme Banner -->
+      <div id="meme-banner" class="hidden">
+        <span id="meme-text">BRO IS COOKING 🔥</span>
+      </div>
+
+      <!-- Floating Text Notifications Container -->
+      <div id="floating-notifications"></div>
+
+      <!-- In-Game HUD Overlay -->
+      <header id="game-hud" class="hidden">
+        <div class="hud-stat-group">
+          <div class="hud-card hud-score">
+            <span class="hud-label">SCORE</span>
+            <span id="hud-score-val" class="hud-value glowing">000000</span>
+          </div>
+          <div class="hud-card hud-best">
+            <span class="hud-label">BEST</span>
+            <span id="hud-best-val" class="hud-value">000000</span>
+          </div>
+        </div>
+
+        <div class="hud-center-group">
+          <!-- Active Power-up Progress Widget -->
+          <div id="powerup-widget" class="hidden">
+            <div class="powerup-info">
+              <span id="powerup-icon">⚡</span>
+              <span id="powerup-name">SPEED BOOST</span>
+            </div>
+            <div class="powerup-bar-track">
+              <div id="powerup-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-right-group">
+          <div class="hud-card hud-coins">
+            <span class="coin-icon">🪙</span>
+            <span id="hud-coin-val" class="hud-value">0</span>
+          </div>
+          <div class="hud-buttons">
+            <button id="btn-audio" class="hud-btn" title="Toggle Sound" aria-label="Toggle Sound">🔊</button>
+            <button id="btn-pause" class="hud-btn" title="Pause Game" aria-label="Pause Game">⏸</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Mobile Touch Controls -->
+      <nav id="mobile-controls" aria-label="Touch Controls">
+        <div class="touch-side touch-left-side">
+          <button id="btn-touch-left" class="touch-btn" aria-label="Move Left">
+            <span class="touch-icon">◀</span>
+            <span class="touch-label">LEFT</span>
+          </button>
+          <button id="btn-touch-right" class="touch-btn" aria-label="Move Right">
+            <span class="touch-icon">▶</span>
+            <span class="touch-label">RIGHT</span>
+          </button>
+        </div>
+        <div class="touch-side touch-right-side">
+          <button id="btn-touch-jump" class="touch-btn jump-btn" aria-label="Jump">
+            <span class="touch-icon">🚀</span>
+            <span class="touch-label">JUMP</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- START SCREEN -->
+      <section id="start-screen" class="game-screen overlay-active" aria-label="Start Screen">
+        <div class="screen-card">
+          <div class="logo-container">
+            <div class="logo-sub-tag">THE ULTIMATE ESCAPE</div>
+            <h1 class="game-title">
+              RUN, BRO, RUN! <span class="skull-anim">💀</span>
+            </h1>
+            <p class="game-subtitle">"How long can you survive?"</p>
+          </div>
+
+          <!-- Hero Character Spotlight -->
+          <div class="character-preview-card">
+            <div class="character-aura-ring"></div>
+            <div class="character-aura-ring inner"></div>
+            <img id="preview-character-img" src="bro.png" alt="Bro Player Character" class="hero-character-preview">
+            <div class="character-badge">
+              <span class="sparkle">✨</span> MAIN CHARACTER ENERGY <span class="sparkle">✨</span>
+            </div>
+          </div>
+
+          <div class="stats-overview">
+            <div class="stat-pill">
+              <span class="pill-label">🏆 HIGH SCORE:</span>
+              <span id="menu-best-score" class="pill-val">000000</span>
+            </div>
+            <div class="stat-pill">
+              <span class="pill-label">🪙 TOTAL COINS:</span>
+              <span id="menu-total-coins" class="pill-val">0</span>
+            </div>
+          </div>
+
+          <!-- Start Button -->
+          <div class="cta-actions">
+            <button id="btn-start" class="btn-primary pulse-btn">
+              <span class="btn-text">START GAME</span>
+              <span class="btn-subtext">Press SPACE or Tap</span>
+            </button>
+          </div>
+
+          <!-- Instructions & Controls Accordion / Guide -->
+          <div class="controls-guide">
+            <div class="guide-col">
+              <h3>🎮 DESKTOP</h3>
+              <p><span>[A] / [◀]</span> Move Left</p>
+              <p><span>[D] / [▶]</span> Move Right</p>
+              <p><span>[SPACE] / [▲]</span> Jump</p>
+            </div>
+            <div class="guide-col">
+              <h3>📱 MOBILE</h3>
+              <p>Touch on-screen buttons or <span>Swipe</span> Left, Right & Up to Jump!</p>
+            </div>
+          </div>
+
+          <div class="rules-bar">
+            <span>🚗 Dodge High Obstacles</span>
+            <span>•</span>
+            <span>🐔 Jump Over Low Hurdles</span>
+            <span>•</span>
+            <span>💀 Unleash GOD MODE</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAUSE SCREEN -->
+      <section id="pause-screen" class="game-screen hidden" aria-label="Pause Screen">
+        <div class="screen-card mini-card">
+          <h2 class="pause-title">GAME PAUSED ⏸</h2>
+          <p class="pause-sub">Bro is catching his breath...</p>
+          <div class="pause-actions">
+            <button id="btn-resume" class="btn-primary">RESUME</button>
+            <button id="btn-restart-pause" class="btn-secondary">RESTART</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME OVER SCREEN -->
+      <section id="game-over-screen" class="game-screen hidden" aria-label="Game Over Screen">
+        <div class="screen-card">
+          <div class="game-over-header">
+            <div class="danger-badge">WIPEOUT</div>
+            <h2 class="game-over-title">💀 GAME OVER 💀</h2>
+            <p id="game-over-meme" class="game-over-quote">"Bro got cooked 💀"</p>
+          </div>
+
+          <div class="survival-banner">
+            <span class="survival-icon">⏱️</span>
+            <span>Bro survived for: </span>
+            <strong id="game-over-time">0.0s</strong>
+          </div>
+
+          <div class="game-over-stats-grid">
+            <div class="over-stat-item highlight">
+              <span class="over-stat-label">FINAL SCORE</span>
+              <span id="game-over-score" class="over-stat-val glowing">0</span>
+              <div id="new-high-badge" class="new-high-pill hidden">🔥 NEW BEST! 🔥</div>
+            </div>
+            <div class="over-stat-item">
+              <span class="over-stat-label">ALL-TIME BEST</span>
+              <span id="game-over-best" class="over-stat-val">0</span>
+            </div>
+            <div class="over-stat-item">
+              <span class="over-stat-label">COINS COLLECTED</span>
+              <span id="game-over-coins" class="over-stat-val">0 🪙</span>
+            </div>
+            <div class="over-stat-item">
+              <span class="over-stat-label">OBSTACLES DODGED</span>
+              <span id="game-over-dodged" class="over-stat-val">0 💥</span>
+            </div>
+          </div>
+
+          <div class="cta-actions">
+            <button id="btn-play-again" class="btn-primary pulse-btn">
+              <span class="btn-text">PLAY AGAIN 🔄</span>
+              <span class="btn-subtext">Press SPACE or Tap</span>
+            </button>
+            <button id="btn-main-menu" class="btn-secondary">
+              MAIN MENU
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
